@@ -18,8 +18,9 @@
       enable = true;
       ephemeral = true;
       maxJobs = 4;
+      supportedFeatures = [ "kvm" "benchmark" "big-parallel" "nixos-test" ];
       config = {
-
+        nix.settings.sandbox = false;
         virtualisation = {
           darwin-builder = {
             diskSize = 40 * 1024;
@@ -30,6 +31,7 @@
 
       };
     };
+
     settings.trusted-users = [ "@admin" "joel" "joeldsouza" ];
 
     gc = {

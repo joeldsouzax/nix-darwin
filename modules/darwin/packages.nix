@@ -5,13 +5,18 @@ with pkgs; [
   bat
   coreutils
   nixfmt-classic
-  pngpaste
   shfmt
   shellcheck
   graphviz
   nodejs
   sqlite
   ispell
+
+  ## emacs stuff
+  emacsPackages.grip-mode
+  emacsPackages.editorconfig
+  emacsPackages.plantuml-mode
+  multimarkdown
 
   #emacs mail deps
   mu

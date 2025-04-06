@@ -2,13 +2,10 @@ _:
 
 [
   # Development Tools
-
   "visual-studio-code"
   "amethyst"
-  "qmk-toolbox"
-  "raspberry-pi-imager"
   "marked"
-
+  "spotify"
   # Communication Tools
   "discord"
   "slack"

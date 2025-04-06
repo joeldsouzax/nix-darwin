@@ -24,10 +24,11 @@
       url = "github:d12frosted/homebrew-emacs-plus";
       flake = false;
     };
+    nix-doom-emacs.url = "github:nix-community/nix-doom-emacs"; 
   };
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, nix-homebrew
-    , homebrew-core, homebrew-cask, homebrew-bundle, emacs-plus, ... }: {
+    , homebrew-core, homebrew-cask, homebrew-bundle, emacs-plus, nix-doom-emacs, ... }: {
       # Build darwin flake using:
       # $ darwin-rebuild build --flake .#
       darwinConfigurations."joel" = nix-darwin.lib.darwinSystem {
@@ -38,7 +39,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.joeldsouza.imports = [ ./modules/home-manager ];
+              users.joel.imports = [ ./modules/home-manager nix-doom-emacs.hmModule ];
             };
           }
           nix-homebrew.darwinModules.nix-homebrew
@@ -49,7 +50,7 @@
               # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
               enableRosetta = true;
               # User owning the Homebrew prefix
-              user = "joeldsouza";
+              user = "joel";
               # Optional: Declarative tap management
               taps = {
                 "homebrew/homebrew-core" = homebrew-core;

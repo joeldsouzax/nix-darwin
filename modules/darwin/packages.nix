@@ -11,22 +11,12 @@ with pkgs; [
   nodejs
   sqlite
   ispell
+  
 
   ## emacs stuff
   emacsPackages.grip-mode
   emacsPackages.editorconfig
   emacsPackages.plantuml-mode
-  multimarkdown
-
-  #emacs mail deps
-  mu
-  isync
-  msmtp
-
-  # crone keyboard deps
-  libusb
-  dfu-programmer
-  avrdude
 
   # Encryption and security tools
   age

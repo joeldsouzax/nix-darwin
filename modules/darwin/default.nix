@@ -4,54 +4,29 @@
   nixpkgs.hostPlatform = "aarch64-darwin";
   # Turn off NIX_PATH warnings now that we're using flakes
   system.checks.verifyNixPath = false;
-
+  
   environment = {
     shells = with pkgs; [ bash zsh ];
-    loginShell = pkgs.zsh;
+  ##loginShell = pkgs.zsh;
     systemPackages = (import ./packages.nix { inherit pkgs; });
     pathsToLink = [ "/Applications" ];
   };
   # Setup user, packages, programs
+  users.users.joel = {
+  name = "joel";
+  home = "/Users/joel";
+  };
   nix = {
+    enable = false;
     package = pkgs.nixVersions.latest;
-    linux-builder = {
-      enable = true;
-      ephemeral = true;
-      maxJobs = 4;
-      supportedFeatures = [ "kvm" "benchmark" "big-parallel" "nixos-test" ];
-      config = {
-        nix.settings.sandbox = false;
-        virtualisation = {
-          darwin-builder = {
-            diskSize = 40 * 1024;
-            memorySize = 8 * 1024;
-          };
-          cores = 6;
-        };
-
-      };
-    };
-
     settings.trusted-users = [ "@admin" "joel" "joeldsouza" ];
-
-    gc = {
-      user = "root";
-      automatic = true;
-      interval = {
-        Weekday = 0;
-        Hour = 2;
-        Minute = 0;
-      };
-      options = "--delete-older-than 30d";
-    };
-
     # Turn this on to make command line easier
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
   };
 
-  services.nix-daemon.enable = true;
+  ## services.nix-daemon.enable = true;
   system.defaults = {
     finder.AppleShowAllExtensions = true;
     finder._FXShowPosixPathInTitle = true;
@@ -63,7 +38,7 @@
   users.users.joeldsouza.home = "/Users/joeldsouza";
 
   #security
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   # backwards compat; don't change
   system.stateVersion = 4;
@@ -94,8 +69,8 @@
 
     brews = [
       {
-        name = "emacs-plus@30";
-        args = [ "with-native-comp" "with-mailutils" "with-ctags" "with-poll" ];
+        name = "emacs-plus@31";
+        args = ["with-dbus" "with-imagemagick" "with-mailutils"];
       }
       "pinentry"
       "gcc"

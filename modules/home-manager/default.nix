@@ -1,8 +1,9 @@
 { pkgs, lib, ... }: {
+
   home = {
     enableNixpkgsReleaseCheck = false;
     packages = with pkgs; [ fd curl ];
-    stateVersion = "23.11";
+    stateVersion = "24.11";
   };
 
   home.sessionVariables = {
@@ -15,7 +16,6 @@
   programs.fzf.enable = true;
   programs.fzf.enableZshIntegration = true;
   programs.eza.enable = true;
-
   programs.dircolors = {
     enable = true;
     enableZshIntegration = true;
@@ -36,7 +36,7 @@
     dirHashes = { code = "$HOME/Code"; };
 
     shellAliases = {
-      nixswitch = "darwin-rebuild switch --flake ~/.config/nix-darwin";
+      nixswitch = "darwin-rebuild switch --flake ~/nix-darwin";
       nixup = "pushd ~/.config/nix-darwin; nix flake update; nixswitch; popd";
       search = ''rg -p --glob "!node_modules/*" --glob "!vendor/*" "$@"'';
       ls = "ls --color=auto";
@@ -79,70 +79,22 @@
     enable = true;
     ignores = [ "*.swp" ];
     delta.enable = true;
-    userName = "Joel DSouza";
+    userName = "Joel Jerome DSouza";
     userEmail = "joeldsouzax@gmail.com";
     lfs = { enable = true; };
     extraConfig = {
       init.defaultBranch = "main";
       core = {
-        editor = "vim";
+        editor = "emacs";
         autocrlf = "input";
       };
       commit.gpgsign = true;
       pull.rebase = true;
       rebase.autoStash = true;
-      extraConfig = { credential.helper = "oauth"; };
     };
   };
 
   programs.starship.enable = true;
   programs.starship.enableZshIntegration = true;
-  # write all your configs here emacs included ? maybe.
-  #
-  #
 
-  # mail client for emacs
-
-  programs.mbsync.enable = true;
-  programs.msmtp.enable = true;
-  programs.mu.enable = true;
-  accounts.email = {
-    accounts.icloud = {
-      address = "joedso1@gmail.com";
-      imap.host = "imap.mail.me.com";
-      imap.port = 993;
-      imap.tls.enable = true;
-      mbsync = {
-        enable = true;
-        create = "maildir";
-      };
-      msmtp.enable = true;
-      mu.enable = true;
-      primary = true;
-      realName = "Joel DSouza";
-      gpg = {
-        key = "36972F6CC29E5E69203D9C9F475E3BED598F0B9E";
-        encryptByDefault = true;
-        signByDefault = true;
-      };
-      signature = {
-        text = ''
-          Joel DSouza
-          Owner at devrandom.co
-        '';
-        showSignature = "append";
-      };
-      passwordCommand =
-        "security find-generic-password -a joel@devrandom.co -g -w";
-      smtp = {
-        host = "smtp.mail.me.com";
-        port = 587;
-        tls.enable = true;
-      };
-      userName = "joedso1@gmail.com";
-    };
-  };
-
-  # mu init --maildir ~/.mail --my-address email@example.com
-  # mu index
 }

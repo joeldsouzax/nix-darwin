@@ -1,23 +1,30 @@
 { pkgs, ... }: {
   # here go the darwin preferences and config items
   programs.zsh.enable = true;
-  nixpkgs.hostPlatform = "aarch64-darwin";
+  nixpkgs = {
+    hostPlatform = "aarch64-darwin";
+    # config.allowBroken = true;
+    config = {
+      allowBroken = true;
+      allowUnfree = true;
+    };
+  };
   # Turn off NIX_PATH warnings now that we're using flakes
   system.checks.verifyNixPath = false;
-  
+
   environment = {
     shells = with pkgs; [ bash zsh ];
-  ##loginShell = pkgs.zsh;
+    ##loginShell = pkgs.zsh;
     systemPackages = (import ./packages.nix { inherit pkgs; });
     pathsToLink = [ "/Applications" ];
   };
   # Setup user, packages, programs
   users.users.joel = {
-  name = "joel";
-  home = "/Users/joel";
+    name = "joel";
+    home = "/Users/joel";
   };
   nix = {
-    enable = false;
+    enable = true;
     package = pkgs.nixVersions.latest;
     settings.trusted-users = [ "@admin" "joel" "joeldsouza" ];
     # Turn this on to make command line easier
@@ -25,6 +32,20 @@
       experimental-features = nix-command flakes
     '';
   };
+
+  fonts.packages = with pkgs; [
+    carlito
+    vegur
+    source-code-pro
+    jetbrains-mono
+    font-awesome
+    corefonts
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-emoji
+    nerd-fonts.fira-code
+    nerd-fonts.meslo-lg
+  ];
 
   ## services.nix-daemon.enable = true;
   system.defaults = {
@@ -41,7 +62,7 @@
   security.pam.services.sudo_local.touchIdAuth = true;
 
   # backwards compat; don't change
-  system.stateVersion = 4;
+  system.stateVersion = 5;
   homebrew = {
     # This is a module from nix-darwin
     # Homebrew is *installed* via the flake input nix-homebrew
@@ -70,7 +91,7 @@
     brews = [
       {
         name = "emacs-plus@31";
-        args = ["with-dbus" "with-imagemagick" "with-mailutils"];
+        args = [ "with-dbus" "with-imagemagick" "with-mailutils" ];
       }
       "pinentry"
       "gcc"

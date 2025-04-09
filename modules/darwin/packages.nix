@@ -11,7 +11,6 @@ with pkgs; [
   nodejs
   sqlite
   ispell
-  
 
   ## emacs stuff
   emacsPackages.grip-mode
@@ -30,6 +29,7 @@ with pkgs; [
   unzip
   cmake
   gnuplot
+  code-cursor
 
   #language servers and language settings
   yaml-language-server

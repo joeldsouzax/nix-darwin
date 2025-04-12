@@ -1,4 +1,6 @@
 {
+
+hello
   description = "Joel DSouza Mac System configuration";
 
   inputs = {
